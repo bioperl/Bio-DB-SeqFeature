@@ -672,7 +672,12 @@ sub _search_attributes {
 
 sub types {
   my $self = shift;
-  eval "require Bio::DB::GFF::Typename" unless Bio::DB::GFF::Typename->can('new');
+  unless (Bio::DB::GFF::Typename->can('new')) {
+      eval "require Bio::DB::GFF::Typename" 
+      if ($@) {
+        $self->warn("Bio::DB::GFF::Typename module not found, is it installed?\n$@")
+      }
+  }
   my @types;
   for my $primary_tag ( keys %{$$self{_index}{type}} ) {
     for my $source_tag ( keys %{$$self{_index}{type}{$primary_tag}} ) {
