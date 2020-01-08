@@ -1,9 +1,3 @@
-
-package Bio::DB::SeqFeature::Store::DBI::Pg;
-use DBD::Pg qw(:pg_types);
-use MIME::Base64;
-# $Id: Pg.pm 14656 2008-04-14 15:05:37Z lstein $
-
 =head1 NAME
 
 Bio::DB::SeqFeature::Store::DBI::Pg -- PostgreSQL implementation of Bio::DB::SeqFeature::Store
@@ -152,11 +146,15 @@ sections.
 
 =cut
 
-use strict;
+package Bio::DB::SeqFeature::Store::DBI::Pg;
 
+use strict;
 use base 'Bio::DB::SeqFeature::Store::DBI::mysql';
+use MIME::Base64;
+
 use Bio::DB::SeqFeature::Store::DBI::Iterator;
 use DBI;
+use DBD::Pg qw(:pg_types);
 use Memoize;
 use Cwd 'abs_path';
 use Bio::DB::GFF::Util::Rearrange 'rearrange';
