@@ -673,7 +673,7 @@ sub _search_attributes {
 sub types {
   my $self = shift;
   unless (Bio::DB::GFF::Typename->can('new')) {
-      eval "require Bio::DB::GFF::Typename" 
+      eval "require Bio::DB::GFF::Typename";
       if ($@) {
         $self->warn("Bio::DB::GFF::Typename module not found, is it installed?\n$@")
       }
