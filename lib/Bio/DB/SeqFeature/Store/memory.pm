@@ -122,6 +122,7 @@ will be lost when the script exits.
 use strict;
 use base 'Bio::DB::SeqFeature::Store';
 use Bio::DB::SeqFeature::Store::GFF3Loader;
+use Bio::DB::GFF::Typename;
 use Bio::DB::GFF::Util::Rearrange 'rearrange';
 use File::Temp 'tempdir';
 use IO::File;
@@ -672,12 +673,6 @@ sub _search_attributes {
 
 sub types {
   my $self = shift;
-  unless (Bio::DB::GFF::Typename->can('new')) {
-      eval "require Bio::DB::GFF::Typename";
-      if ($@) {
-        $self->warn("Bio::DB::GFF::Typename module not found, is it installed?\n$@")
-      }
-  }
   my @types;
   for my $primary_tag ( keys %{$$self{_index}{type}} ) {
     for my $source_tag ( keys %{$$self{_index}{type}{$primary_tag}} ) {
