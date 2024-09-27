@@ -2,6 +2,7 @@ Summary of important user-visible changes for Bio-DB-SeqFeature
 ---------------------------------------------------------------
 
 {{$NEXT}}
+  * Adding a new adapter for MariaDB (thanks to Kai Schlachter, @murphy83)
 
 1.7.4     2020-01-08 22:03:25-06:00 America/Chicago
   * The prior release required both DBD::Pg and DBD::SQLite; we now 
