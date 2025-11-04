@@ -315,9 +315,9 @@ END
 	  sequence => <<END,
 (
   id       int(10) not null,
-  offset   int(10) unsigned not null,
+  `offset` int(10) unsigned not null,
   sequence longblob,
-  primary key(id,offset)
+  primary key(id,`offset`)
 )
 END
 	  interval_stats => <<END,
@@ -684,7 +684,7 @@ sub _fetch_sequence {
   my $sequence_table = $self->_sequence_table;
 
   my $sql = <<END;
-SELECT sequence,offset
+SELECT s.sequence,s.offset
    FROM $sequence_table as s
    WHERE s.id=?
      AND s.offset >= ?
@@ -718,9 +718,9 @@ sub _offset_boundary {
   my $locationlist_table = $self->_locationlist_table;
 
   my $sql;
-  $sql =  $position eq 'left'  ? "SELECT min(offset) FROM $sequence_table as s WHERE s.id=?"
-         :$position eq 'right' ? "SELECT max(offset) FROM $sequence_table as s WHERE s.id=?"
-	 :"SELECT max(offset) FROM $sequence_table as s WHERE s.id=? AND offset<=?";
+  $sql =  $position eq 'left'  ? "SELECT min(s.offset) FROM $sequence_table as s WHERE s.id=?"
+         :$position eq 'right' ? "SELECT max(s.offset) FROM $sequence_table as s WHERE s.id=?"
+	 :"SELECT max(s.offset) FROM $sequence_table as s WHERE s.id=? AND s.offset<=?";
   my $sth = $self->_prepare($sql);
   my @args = $position =~ /^-?\d+$/ ? ($seqid,$position) : ($seqid);
   $self->_print_query($sql,@args) if DEBUG || $self->debug;
@@ -1496,7 +1496,7 @@ sub _insert_sequence {
   my $id = $self->_locationid($seqid);
   my $sequence = $self->_sequence_table;
   my $sth = $self->_prepare(<<END);
-REPLACE INTO $sequence (id,offset,sequence) VALUES (?,?,?)
+REPLACE INTO $sequence (id,`offset`,sequence) VALUES (?,?,?)
 END
   $sth->execute($id,$offset,$seq) or $self->throw($sth->errstr);
 }
